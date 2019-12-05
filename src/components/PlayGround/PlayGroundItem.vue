@@ -4,7 +4,7 @@
       <img src="@/assets/bomb.png" alt="" />
     </template>
     <template v-else-if="item.isOpened">
-      <span>Empty</span>
+      <span>{{ itemText }}</span>
     </template>
   </div>
 </template>
@@ -22,6 +22,10 @@ export default {
     isGameOver: {
       type: Boolean,
       required: true
+    },
+    minesAround: {
+      type: Boolean,
+      required: true
     }
   },
   computed: {
@@ -29,7 +33,14 @@ export default {
       return this.item.isMine && this.item.isOpened;
     },
     itemClasses() {
-      return { opened: this.item.isOpened, disabled: this.isGameOver };
+      return {
+        opened: this.item.isOpened,
+        disabled: this.isGameOver,
+        minesArround: this.minesAround
+      };
+    },
+    itemText() {
+      return this.minesAround ? "mines close" : "mines far";
     }
   },
   methods: {
@@ -55,6 +66,14 @@ export default {
 
 .playground-item img {
   max-width: 70%;
+}
+
+.playground-item.opened {
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5) inset;
+}
+
+.playground-item.minesArround.opened {
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5) inset;
 }
 
 .disabled {

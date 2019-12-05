@@ -1,11 +1,12 @@
 <template>
   <div class="playground" :style="gridStyles">
-    <template v-for="item in items">
+    <template v-for="(item, index) in items">
       <PlayGroundItem
         :key="item.id"
         :item="item"
         @openItem="openItem"
         :is-game-over="isGameOver"
+        :mines-around="checkAnyMines(index)"
       />
     </template>
   </div>
@@ -30,7 +31,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions("minerStore", ["openItem"])
+    ...mapActions("minerStore", ["openItem"]),
+    checkAnyMines(index) {
+      const prev = index - 1;
+      const next = index + 1;
+      const top = index - this.rowCounts;
+      const bottom = index + this.rowCounts;
+
+      return [prev, next, top, bottom].some(index => {
+        return this.items[index] ? this.items[index].isMine : false;
+      });
+    }
   }
 };
 </script>
