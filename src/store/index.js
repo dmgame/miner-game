@@ -1,11 +1,18 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import minerStore from "./modules/miner";
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {},
   mutations: {},
   actions: {},
-  modules: {}
+  modules: {
+    minerStore
+  }
 });
+
+store.dispatch("initGame");
+
+export default store;
